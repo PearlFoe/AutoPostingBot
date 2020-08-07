@@ -58,14 +58,14 @@ async def post_step_3(message: types.Message, state: FSMContext):
 	await state.finish()
 	await bot.send_message(message.from_user.id, message_text, reply_markup=keyboards.review_post_kb)
 
-@dp.message_handler(lambda c: c.data == 'review_post')
+@dp.callback_query_handler(lambda c: c.data == 'review_post')
 async def review_new_post(message: types.Message):
 	data = json_methods.read(DB_PATH)
 	message_text = data['user_id'][message.from_user.id]['head'] + '\n\n' + data['user_id'][message.from_user.id]['body']
 
 	await bot.send_photo(message.from_user.id, data['user_id'][message.from_user.id]['photo_id'], caption = message_text, reply_markup = keyboards.agreement_to_send_post_kb)
 
-@dp.message_handler(lambda c: c.data == 'send_post_to_chanel')
+@dp.callback_query_handler(lambda c: c.data == 'send_post_to_chanel')
 async def send_new_post(message: types.Message):
 	await bot.send_photo(config.CHANEL_ID, data['user_id'][message.from_user.id]['photo_id'], caption = message_text, reply_markup = keyboards.agreement_to_send_post_kb)
 	message_text = text('Готово, ваш пост был отправлен в ' + 
