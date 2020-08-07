@@ -1,0 +1,8 @@
+TOKEN = '1331754764:AAGcjVGQQfvBlc_aGtb8mEgzpYrNJETlfEI'
+ADMIN_ID = 659797592
+CHANEL_ID = -1001247348250
+CHANEL_URL = 'https://t.me/c_tests'
+
+
+
+			 
