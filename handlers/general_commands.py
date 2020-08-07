@@ -10,7 +10,7 @@ async def process_start_command(message: types.Message):
 
 @dp.message_handler(commands=['help'])
 async def send_commands_list(message: types.Message):
-	message_text = ('/start - начать общение с ботом' +
+	message_text = ('/start - начать общение с ботом\n' +
 					'/help - вывод списка команд\n' +
 					'/create_new_post - отправить данные о товаре в канал\n' +
 					'/exit - завершить общение с ботом')
