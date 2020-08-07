@@ -18,12 +18,12 @@ class MakeNewPost(StatesGroup):
 
 @dp.callback_query_handler(lambda c: c.data == 'return_to_start')
 @dp.message_handler(commands=['create_new_post'], state="*")
-async def create_new_post_command(message: types.Message):
-	await bot.answer_callback_query(message.from_user.id)
+async def create_new_post_command(callback_query: types.CallbackQuery):
+	await bot.answer_callback_query(callback_query.id)
 	message_text = ('Отлично, сейчас с тобой мы создадим новый пост.\n' + 
 					'Отправт мне заголовок твоего поста.')
 	await MakeNewPost.waiting_for_head_text.set()
-	await bot.send_message(message.from_user.id, message_text, reply_markup=keyboards.creation_disagreement_kb)
+	await bot.send_message(callback_query.from_user.id, message_text, reply_markup=keyboards.creation_disagreement_kb)
 
 @dp.message_handler(state=MakeNewPost.waiting_for_head_text, content_types=types.ContentTypes.TEXT)
 async def post_step_1(message: types.Message, state: FSMContext):
@@ -61,21 +61,21 @@ async def post_step_3(message: types.Message, state: FSMContext):
 	await bot.send_message(message.from_user.id, message_text, reply_markup=keyboards.review_post_kb)
 
 @dp.callback_query_handler(lambda c: c.data == 'review_post')
-async def review_new_post(message: types.Message):
-	await bot.answer_callback_query(message.from_user.id)
+async def review_new_post(callback_query: types.CallbackQuery):
+	await bot.answer_callback_query(callback_query.id)
 	data = json_methods.read(DB_PATH)
-	message_text = data['user_id'][message.from_user.id]['head'] + '\n\n' + data['user_id'][message.from_user.id]['body']
+	message_text = data['user_id'][callback_query.from_user.id]['head'] + '\n\n' + data['user_id'][callback_query.from_user.id]['body']
 
-	await bot.send_photo(message.from_user.id, data['user_id'][message.from_user.id]['photo_id'], caption = message_text, reply_markup = keyboards.agreement_to_send_post_kb)
+	await bot.send_photo(callback_query.from_user.id, data['user_id'][callback_query.from_user.id]['photo_id'], caption = message_text, reply_markup = keyboards.agreement_to_send_post_kb)
 
 @dp.callback_query_handler(lambda c: c.data == 'send_post_to_chanel')
-async def send_new_post(message: types.Message):
-	await bot.answer_callback_query(message.from_user.id)
-	await bot.send_photo(config.CHANEL_ID, data['user_id'][message.from_user.id]['photo_id'], caption = message_text, reply_markup = keyboards.agreement_to_send_post_kb)
+async def send_new_post(callback_query: types.CallbackQuery):
+	await bot.answer_callback_query(callback_query.id)
+	await bot.send_photo(config.CHANEL_ID, data['user_id'][callback_query.from_user.id]['photo_id'], caption = message_text, reply_markup = keyboards.agreement_to_send_post_kb)
 	message_text = text('Готово, ваш пост был отправлен в ' + 
 						link('канал.', config.CHANEL_URL) + 
 						'\nХотите создать еще один пост?')
-	await bot.send_message(message.from_user.id, message_text, reply_markup = creation_agreement_kb, parse_mode = ParseMode.MARKDOWN)
+	await bot.send_message(callback_query.from_user.id, message_text, reply_markup = creation_agreement_kb, parse_mode = ParseMode.MARKDOWN)
 
 #ловим мусор
 @dp.message_handler(content_types=types.ContentType.ANY)
