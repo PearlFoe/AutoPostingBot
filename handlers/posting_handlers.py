@@ -1,4 +1,5 @@
 import config
+impost os
 from misc import dp, bot
 from . import keyboards
 from . import json_methods
