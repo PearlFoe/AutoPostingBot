@@ -32,7 +32,7 @@ async def post_step_1(message: types.Message, state: FSMContext):
 	data['user_id'][message.from_user.id] = {'head':message.text,'body':None,'photo_id':None}
 	json_methods.write(DB_PATH, data)
 
-	await OrderFood.next()
+	await MakeNewPost.next()
 	await bot.send_message(message.from_user.id, message_text, reply_markup=keyboards.canceling_kb)
 
 @dp.message_handler(state=MakeNewPost.waiting_for_body_text, content_types=types.ContentTypes.TEXT)
@@ -43,7 +43,7 @@ async def post_step_2(message: types.Message, state: FSMContext):
 	data['user_id'][message.from_user.id]['body'] = message.text
 	json_methods.write(DB_PATH, data)
 
-	await OrderFood.next()
+	await MakeNewPost.next()
 	await bot.send_message(message.from_user.id, message_text, reply_markup=keyboards.canceling_kb)
 
 
