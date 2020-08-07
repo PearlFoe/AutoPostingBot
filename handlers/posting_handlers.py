@@ -29,6 +29,7 @@ async def post_step_1(message: types.Message, state: FSMContext):
 	message_text = 'Так, теперь напиши основной текст твоего поста.'
 
 	data = json_methods.read(DB_PATH)
+	await bot.send_message(message.from_user.id,data['user_id'][message.from_user.id]['head'])
 	data['user_id'][message.from_user.id] = {'head':message.text,'body':None,'photo_id':None}
 	json_methods.write(DB_PATH, data)
 
