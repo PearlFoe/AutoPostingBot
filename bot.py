@@ -1,6 +1,5 @@
 import os
 import config
-import aiohttp
 import handlers
 import logging
 
