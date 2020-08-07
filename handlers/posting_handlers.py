@@ -1,5 +1,5 @@
 import config
-impost os
+import os
 from misc import dp, bot
 from . import keyboards
 from . import json_methods
