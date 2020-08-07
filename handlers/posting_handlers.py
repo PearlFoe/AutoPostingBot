@@ -19,7 +19,7 @@ class MakeNewPost(StatesGroup):
 @dp.callback_query_handler(lambda c: c.data == 'return_to_start')
 @dp.message_handler(commands=['create_new_post'], state="*")
 async def create_new_post_command(message: types.Message):
-	await bot.answer_callback_query(callback_query.id)
+	await bot.answer_callback_query(message.from_user.id)
 	message_text = ('Отлично, сейчас с тобой мы создадим новый пост.\n' + 
 					'Отправт мне заголовок твоего поста.')
 	await MakeNewPost.waiting_for_head_text.set()
@@ -62,7 +62,7 @@ async def post_step_3(message: types.Message, state: FSMContext):
 
 @dp.callback_query_handler(lambda c: c.data == 'review_post')
 async def review_new_post(message: types.Message):
-	await bot.answer_callback_query(callback_query.id)
+	await bot.answer_callback_query(message.from_user.id)
 	data = json_methods.read(DB_PATH)
 	message_text = data['user_id'][message.from_user.id]['head'] + '\n\n' + data['user_id'][message.from_user.id]['body']
 
@@ -70,7 +70,7 @@ async def review_new_post(message: types.Message):
 
 @dp.callback_query_handler(lambda c: c.data == 'send_post_to_chanel')
 async def send_new_post(message: types.Message):
-	await bot.answer_callback_query(callback_query.id)
+	await bot.answer_callback_query(message.from_user.id)
 	await bot.send_photo(config.CHANEL_ID, data['user_id'][message.from_user.id]['photo_id'], caption = message_text, reply_markup = keyboards.agreement_to_send_post_kb)
 	message_text = text('Готово, ваш пост был отправлен в ' + 
 						link('канал.', config.CHANEL_URL) + 
