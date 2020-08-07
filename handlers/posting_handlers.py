@@ -23,7 +23,7 @@ async def create_new_post_command(message: types.Message):
 	message_text = ('Отлично, сейчас с тобой мы создадим новый пост.\n' + 
 					'Отправт мне заголовок твоего поста.')
 	await MakeNewPost.waiting_for_head_text.set()
-	await bot.send_message(message.from_user.id, message_text, reply_markup=keyboards.canceling_kb)
+	await bot.send_message(message.from_user.id, message_text, reply_markup=keyboards.creation_disagreement_kb)
 
 @dp.message_handler(state=MakeNewPost.waiting_for_head_text, content_types=types.ContentTypes.TEXT)
 async def post_step_1(message: types.Message, state: FSMContext):
