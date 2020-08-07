@@ -19,6 +19,10 @@ canceling_btn = InlineKeyboardButton('Отменить создание пост
 creation_agreement_kb = InlineKeyboardMarkup()
 creation_agreement_kb.add(send_post_data_btn)
 
+#клавиатура отмены создания поста
+creation_disagreement_kb = InlineKeyboardMarkup()
+creation_disagreement_kb.add(canceling_btn)
+
 #клавиатура отмены действия
 canceling_kb = InlineKeyboardMarkup()
 canceling_kb.add(return_to_start_btn)
