@@ -4,7 +4,7 @@ from misc import dp, bot
 @dp.message_handler(commands=['start'])
 async def process_start_command(message: types.Message):
 	message_text = ('Привет!\n' +
-					'Это бот-помошник для автопостинга товаров в канал.\n' +
+					'Это бот-помощник для автопостинга товаров в канал.\n' +
 					'Напиши /help, чтобы получить список возможных команд.')
 	await bot.send_message(message.from_user.id, message_text)
 
