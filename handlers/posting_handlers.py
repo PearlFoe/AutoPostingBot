@@ -68,6 +68,7 @@ async def post_step_3(message: types.Message, state: FSMContext):
 @dp.callback_query_handler(lambda c: c.data == 'review_post', state="*")
 async def review_new_post(callback_query: types.CallbackQuery):
 	await bot.answer_callback_query(callback_query.id)
+	await state.finish()
 	data = json_methods.read(DB_PATH)
 	message_text = data['user_id'][str(callback_query.from_user.id)]['head'] + '\n\n' + data['user_id'][str(callback_query.from_user.id)]['body']
 
@@ -76,6 +77,7 @@ async def review_new_post(callback_query: types.CallbackQuery):
 @dp.callback_query_handler(lambda c: c.data == 'send_post_to_chanel', state="*")
 async def send_new_post(callback_query: types.CallbackQuery):
 	await bot.answer_callback_query(callback_query.id)
+	await state.finish()
 	data = json_methods.read(DB_PATH)
 	message_text = data['user_id'][str(callback_query.from_user.id)]['head'] + '\n\n' + data['user_id'][str(callback_query.from_user.id)]['body']
 	await bot.send_photo(config.CHANEL_ID, data['user_id'][str(callback_query.from_user.id)]['photo_id'], caption = message_text)
@@ -87,6 +89,7 @@ async def send_new_post(callback_query: types.CallbackQuery):
 @dp.callback_query_handler(lambda c: c.data == 'cancel_post_creation', state="*")
 async def cancel_post_creation(callback_query: types.CallbackQuery):
 	await bot.answer_callback_query(callback_query.id)
+	await state.finish()
 	message_text = 'Создание поста отменено.\nНажмите /help для получения списка возможных команд.'
 	await bot.send_message(callback_query.from_user.id, message_text)
 
